@@ -1,0 +1,35 @@
+@import '../styles/variables.less';
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: @spacing-xl;
+
+  &__title {
+    font-size: @font-size-title;
+    font-weight: @font-weight-bold;
+    color: @color-text-primary;
+    letter-spacing: @letter-spacing-tight;
+    line-height: @line-height-heading;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: @font-size-body;
+    color: @color-text-secondary;
+    margin-top: @spacing-xs;
+    line-height: @line-height-body;
+  }
+}
+
+// Dark mode
+body[arco-theme='dark'] {
+  .page-header__title {
+    color: var(--color-text-1);
+  }
+
+  .page-header__subtitle {
+    color: var(--color-text-2);
+  }
+}
