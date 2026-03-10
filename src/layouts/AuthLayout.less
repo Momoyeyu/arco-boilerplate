@@ -1,0 +1,160 @@
+@import '../styles/variables.less';
+
+.auth-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: @color-bg-secondary;
+
+  &__actions {
+    position: fixed;
+    top: @spacing-md;
+    right: @spacing-md;
+    display: flex;
+    gap: @spacing-xs;
+    z-index: 10;
+  }
+
+  &__card {
+    width: 100%;
+    max-width: @auth-card-width;
+    background: @color-bg-page;
+    border-radius: @border-radius-xl;
+    box-shadow: @shadow-sm;
+    padding: @spacing-xxl @spacing-xl;
+
+    // ── Arco Form alignment fixes within auth card ──
+    .arco-form {
+      // Remove Arco's default label layout, use simple stacked layout
+      .arco-form-layout-horizontal .arco-form-item-label-col {
+        display: none;
+      }
+
+      .arco-form-layout-horizontal .arco-form-item-wrapper-col {
+        flex: 1;
+      }
+
+      .arco-form-item {
+        margin-bottom: @spacing-md;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      // Ensure all form controls take full width
+      .arco-form-item-wrapper,
+      .arco-form-item-control-wrapper,
+      .arco-form-item-wrapper-col {
+        width: 100%;
+        max-width: 100%;
+        flex: none;
+      }
+
+      // All inputs full width and consistent height
+      .arco-input-wrapper,
+      .arco-input-password {
+        width: 100%;
+      }
+
+      // Full-width button
+      .arco-btn-long {
+        width: 100%;
+      }
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: @spacing-sm;
+    margin-bottom: @spacing-xl;
+
+    img {
+      width: 28px;
+      height: 28px;
+    }
+
+    h1 {
+      font-size: @font-size-heading;
+      font-weight: @font-weight-bold;
+      letter-spacing: @letter-spacing-tight;
+      color: @color-text-primary;
+      margin: 0;
+    }
+  }
+
+  &__footer {
+    margin-top: @spacing-lg;
+    text-align: center;
+    font-size: @font-size-sm;
+    color: @color-text-secondary;
+
+    a {
+      color: @color-primary;
+      font-weight: @font-weight-medium;
+
+      &:hover {
+        color: @color-primary-hover;
+      }
+    }
+  }
+
+  &__hint {
+    text-align: center;
+    margin-bottom: @spacing-lg;
+    color: @color-text-secondary;
+    font-size: @font-size-sm;
+    line-height: @line-height-body;
+  }
+
+  &__extra {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -@spacing-sm;
+    margin-bottom: @spacing-sm;
+
+    a {
+      color: @color-text-tertiary;
+      font-size: @font-size-sm;
+
+      &:hover {
+        color: @color-primary;
+      }
+    }
+  }
+}
+
+// Dark mode
+body[arco-theme='dark'] {
+  .auth-layout {
+    background: var(--color-bg-1);
+
+    &__card {
+      background: var(--color-bg-2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    &__logo h1 {
+      color: var(--color-text-1);
+    }
+
+    &__footer {
+      color: var(--color-text-2);
+    }
+
+    &__extra a {
+      color: var(--color-text-3);
+
+      &:hover {
+        color: @color-primary;
+      }
+    }
+
+    &__hint {
+      color: var(--color-text-2);
+    }
+  }
+}

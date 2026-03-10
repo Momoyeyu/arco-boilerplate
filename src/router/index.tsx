@@ -1,0 +1,63 @@
+import { lazy, Suspense } from 'react';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import AuthLayout from '@/layouts/AuthLayout';
+import MainLayout from '@/layouts/MainLayout';
+import ProtectedRoute from '@/layouts/ProtectedRoute';
+import LoadingScreen from '@/components/LoadingScreen';
+
+const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
+const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'));
+const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPasswordPage'));
+const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage'));
+const SettingsPage = lazy(() => import('@/pages/settings/SettingsPage'));
+
+function SuspenseWrapper({ children }: { children: React.ReactNode }) {
+  return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
+}
+
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Navigate to="/dashboard" replace />,
+  },
+  {
+    element: <AuthLayout />,
+    children: [
+      {
+        path: '/login',
+        element: <SuspenseWrapper><LoginPage /></SuspenseWrapper>,
+      },
+      {
+        path: '/register',
+        element: <SuspenseWrapper><RegisterPage /></SuspenseWrapper>,
+      },
+      {
+        path: '/forgot-password',
+        element: <SuspenseWrapper><ForgotPasswordPage /></SuspenseWrapper>,
+      },
+      {
+        path: '/reset-password',
+        element: <SuspenseWrapper><ResetPasswordPage /></SuspenseWrapper>,
+      },
+    ],
+  },
+  {
+    element: <ProtectedRoute />,
+    children: [
+      {
+        element: <MainLayout />,
+        children: [
+          {
+            path: '/dashboard',
+            element: <SuspenseWrapper><DashboardPage /></SuspenseWrapper>,
+          },
+          {
+            path: '/settings',
+            element: <SuspenseWrapper><SettingsPage /></SuspenseWrapper>,
+          },
+        ],
+      },
+    ],
+  },
+]);
