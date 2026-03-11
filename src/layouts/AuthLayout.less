@@ -2,13 +2,113 @@
 
 .auth-layout {
   display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  background: @color-bg-secondary;
+
+  // ─── Left Decorative Panel ──────────────────────────────
+  &__decor {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: @color-bg-secondary;
+  }
+
+  &__decor-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, @dot-pattern-color 1px, transparent 1px);
+    background-size: @dot-pattern-size @dot-pattern-size;
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  &__decor-shapes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  &__decor-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.5;
+    animation: auth-float 20s ease-in-out infinite;
+
+    &--1 {
+      width: 300px;
+      height: 300px;
+      background: rgba(35, 131, 226, 0.15);
+      top: 20%;
+      left: 10%;
+    }
+
+    &--2 {
+      width: 250px;
+      height: 250px;
+      background: rgba(124, 92, 252, 0.12);
+      bottom: 20%;
+      right: 10%;
+      animation-delay: -7s;
+    }
+
+    &--3 {
+      width: 200px;
+      height: 200px;
+      background: rgba(20, 201, 201, 0.1);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: -13s;
+    }
+  }
+
+  &__decor-brand {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: @spacing-xl;
+
+    img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: @spacing-md;
+    }
+
+    h2 {
+      font-size: @font-size-display;
+      font-weight: @font-weight-bold;
+      letter-spacing: @letter-spacing-tight;
+      background: @gradient-primary;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+    }
+
+    p {
+      color: @color-text-secondary;
+      font-size: @font-size-md;
+      margin-top: @spacing-sm;
+    }
+  }
+
+  // ─── Right Form Panel ───────────────────────────────────
+  &__panel {
+    width: 480px;
+    flex-shrink: 0;
+    background: @color-bg-page;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
 
   &__actions {
-    position: fixed;
+    position: absolute;
     top: @spacing-md;
     right: @spacing-md;
     display: flex;
@@ -16,17 +116,21 @@
     z-index: 10;
   }
 
+  &__form-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: @spacing-xxl @spacing-xxl;
+  }
+
   &__card {
     width: 100%;
     max-width: @auth-card-width;
-    background: @color-bg-page;
-    border-radius: @border-radius-xl;
-    box-shadow: @shadow-sm;
-    padding: @spacing-xxl @spacing-xl;
+    animation: fade-up @transition-entrance both;
 
     // ── Arco Form alignment fixes within auth card ──
     .arco-form {
-      // Remove Arco's default label layout, use simple stacked layout
       .arco-form-layout-horizontal .arco-form-item-label-col {
         display: none;
       }
@@ -43,7 +147,6 @@
         }
       }
 
-      // Ensure all form controls take full width
       .arco-form-item-wrapper,
       .arco-form-item-control-wrapper,
       .arco-form-item-wrapper-col {
@@ -52,13 +155,11 @@
         flex: none;
       }
 
-      // All inputs full width and consistent height
       .arco-input-wrapper,
       .arco-input-password {
         width: 100%;
       }
 
-      // Full-width button
       .arco-btn-long {
         width: 100%;
       }
@@ -127,14 +228,66 @@
   }
 }
 
-// Dark mode
-body[arco-theme='dark'] {
+// ─── Responsive: collapse to centered card ──────────────
+@media (max-width: 960px) {
   .auth-layout {
-    background: var(--color-bg-1);
+    flex-direction: column;
+
+    &__decor {
+      display: none;
+    }
+
+    &__panel {
+      width: 100%;
+      min-height: 100vh;
+      background: @color-bg-secondary;
+    }
+
+    &__form-area {
+      padding: @spacing-xl @spacing-lg;
+    }
 
     &__card {
+      background: @color-bg-page;
+      border-radius: @border-radius-xl;
+      box-shadow: @shadow-auth-card;
+      padding: @spacing-xxl @spacing-xl;
+    }
+  }
+}
+
+// ─── Dark Mode ──────────────────────────────────────────
+body[arco-theme='dark'] {
+  .auth-layout {
+    &__decor {
       background: var(--color-bg-2);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    &__decor-grid {
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    }
+
+    &__decor-circle {
+      &--1 { background: rgba(35, 131, 226, 0.1); }
+      &--2 { background: rgba(124, 92, 252, 0.08); }
+      &--3 { background: rgba(20, 201, 201, 0.06); }
+    }
+
+    &__decor-brand {
+      h2 {
+        background: @gradient-primary-dark;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      p {
+        color: var(--color-text-2);
+      }
+    }
+
+    &__panel {
+      background: var(--color-bg-1);
     }
 
     &__logo h1 {
@@ -155,6 +308,20 @@ body[arco-theme='dark'] {
 
     &__hint {
       color: var(--color-text-2);
+    }
+  }
+
+  // Responsive dark mode
+  @media (max-width: 960px) {
+    .auth-layout {
+      &__panel {
+        background: var(--color-bg-1);
+      }
+
+      &__card {
+        background: var(--color-bg-2);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+      }
     }
   }
 }
