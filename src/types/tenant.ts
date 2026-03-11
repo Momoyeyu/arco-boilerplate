@@ -1,11 +1,11 @@
 export interface TenantListItem {
-  tenant_id: number;
+  tenant_id: string;
   tenant_name: string;
   user_role: string;
 }
 
 export interface Tenant {
-  id: number;
+  id: string;
   name: string;
   status: string;
 }

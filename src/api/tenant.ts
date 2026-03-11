@@ -11,7 +11,7 @@ export const tenantApi = {
     return client.get<unknown, TenantListItem[]>('/tenant');
   },
 
-  get(tenantId: number) {
+  get(tenantId: string) {
     return client.get<unknown, Tenant>(`/tenant/${tenantId}`);
   },
 
@@ -19,7 +19,7 @@ export const tenantApi = {
     return client.post<unknown, Tenant>('/tenant', data);
   },
 
-  update(tenantId: number, data: TenantUpdateRequest) {
+  update(tenantId: string, data: TenantUpdateRequest) {
     return client.put<unknown, Tenant>(`/tenant/${tenantId}`, data);
   },
 };
