@@ -5,6 +5,20 @@
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: @spacing-xl;
+  padding-bottom: @spacing-lg;
+  border-bottom: 1px solid @color-border-light;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: @gradient-primary;
+    border-radius: 1px;
+  }
 
   &__title {
     font-size: @font-size-title;
@@ -25,6 +39,10 @@
 
 // Dark mode
 body[arco-theme='dark'] {
+  .page-header {
+    border-color: var(--color-border);
+  }
+
   .page-header__title {
     color: var(--color-text-1);
   }

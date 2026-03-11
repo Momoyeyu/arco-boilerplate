@@ -38,7 +38,7 @@ export default function SecurityTab() {
   };
 
   return (
-    <div style={{ maxWidth: 480 }}>
+    <div className="security-tab">
       <Form
         form={form}
         onSubmit={handleChange}

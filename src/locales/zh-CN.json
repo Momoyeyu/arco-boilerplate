@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "Arco Boilerplate"
+    "name": "Arco Boilerplate",
+    "tagline": "自信构建现代化 Web 应用"
   },
   "nav": {
     "dashboard": "仪表盘",

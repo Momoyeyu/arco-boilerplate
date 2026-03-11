@@ -43,6 +43,7 @@
 @font-size-heading:       20px;
 @font-size-title:         28px;
 @font-size-display:       32px;
+@font-size-hero:          36px;
 
 @font-weight-normal:      400;
 @font-weight-medium:      500;
@@ -86,8 +87,31 @@
 @shadow-card:             0 1px 3px rgba(0, 0, 0, 0.06);
 @shadow-dropdown:         0 4px 12px rgba(0, 0, 0, 0.12);
 
+// ─── Accent Colors ──────────────────────────────────────
+@color-accent-blue:       #2383e2;
+@color-accent-purple:     #7c5cfc;
+@color-accent-teal:       #14c9c9;
+
+// ─── Gradients ──────────────────────────────────────────
+@gradient-primary:        linear-gradient(135deg, #2383e2 0%, #7c5cfc 100%);
+@gradient-primary-dark:   linear-gradient(135deg, #5ba3e8 0%, #9b83fd 100%);
+
+// ─── Enhanced Shadows ───────────────────────────────────
+@shadow-card-hover:       0 8px 32px rgba(0, 0, 0, 0.08),
+                          0 2px 8px rgba(0, 0, 0, 0.04);
+@shadow-glow-primary:     0 0 0 1px rgba(35, 131, 226, 0.1),
+                          0 4px 16px rgba(35, 131, 226, 0.08);
+@shadow-auth-card:        0 16px 48px rgba(0, 0, 0, 0.08),
+                          0 2px 8px rgba(0, 0, 0, 0.04);
+
+// ─── Decorative ─────────────────────────────────────────
+@dot-pattern-size:        24px;
+@dot-pattern-color:       rgba(55, 53, 47, 0.05);
+
 // ─── Transitions ─────────────────────────────────────────
 @transition-fast:         0.1s ease;
 @transition-normal:       0.15s ease;
 @transition-slow:         0.2s ease;
 @transition-layout:       0.25s ease;
+@transition-spring:       0.4s cubic-bezier(0.16, 1, 0.3, 1);
+@transition-entrance:     0.6s cubic-bezier(0.16, 1, 0.3, 1);

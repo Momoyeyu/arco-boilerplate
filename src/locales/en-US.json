@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "Arco Boilerplate"
+    "name": "Arco Boilerplate",
+    "tagline": "Build modern web apps with confidence"
   },
   "nav": {
     "dashboard": "Dashboard",
