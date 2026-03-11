@@ -9,9 +9,11 @@
 
 .arco-btn-primary {
   border-radius: @border-radius-md;
+  transition: all @transition-normal, box-shadow @transition-normal;
 
   &:hover {
-    box-shadow: @shadow-xs;
+    box-shadow: 0 4px 12px rgba(35, 131, 226, 0.25);
+    transform: translateY(-0.5px);
   }
 }
 
@@ -62,7 +64,7 @@
   &.arco-input-wrapper-focus,
   &:focus-within {
     border-color: @color-primary;
-    box-shadow: 0 0 0 2px rgba(35, 131, 226, 0.12);
+    box-shadow: 0 0 0 3px rgba(35, 131, 226, 0.1);
   }
 }
 
@@ -142,7 +144,7 @@
 
 // ─── Tabs ────────────────────────────────────────────────
 .arco-tabs-header-nav-line .arco-tabs-header-ink-bar {
-  background: @color-primary;
+  background: @gradient-primary;
   height: 2px;
 }
 
