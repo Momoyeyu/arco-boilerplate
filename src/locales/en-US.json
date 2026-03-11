@@ -5,6 +5,7 @@
   },
   "nav": {
     "dashboard": "Dashboard",
+    "tenants": "Tenants",
     "settings": "Settings",
     "logout": "Logout"
   },
@@ -51,14 +52,9 @@
     "title": "Settings",
     "profile": "Profile",
     "security": "Security",
-    "nickname": "Nickname",
-    "nicknamePlaceholder": "Enter nickname",
     "emailLabel": "Email",
     "usernameLabel": "Username",
-    "roleLabel": "Role",
-    "saveChanges": "Save Changes",
     "changePassword": "Change Password",
-    "profileUpdated": "Profile updated",
     "passwordChanged": "Password changed"
   },
   "dashboard": {
@@ -67,6 +63,18 @@
     "welcomeDefault": "Welcome back",
     "subtitle": "Here's an overview of your account.",
     "editProfile": "Edit Profile"
+  },
+  "tenant": {
+    "title": "Tenants",
+    "name": "Name",
+    "role": "Role",
+    "create": "Create Tenant",
+    "createTitle": "Create New Tenant",
+    "namePlaceholder": "Enter tenant name",
+    "nameRequired": "Tenant name is required",
+    "createSuccess": "Tenant created",
+    "updateSuccess": "Tenant updated",
+    "noTenantsDesc": "Create your first tenant to get started."
   },
   "common": {
     "loading": "Loading...",

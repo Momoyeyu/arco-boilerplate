@@ -20,23 +20,21 @@ function getInitials(name: string): string {
 
 interface UserAvatarProps {
   username: string;
-  nickname?: string | null;
   avatarUrl?: string | null;
   size?: number;
 }
 
-export default function UserAvatar({ username, nickname, avatarUrl, size = 32 }: UserAvatarProps) {
+export default function UserAvatar({ username, avatarUrl, size = 32 }: UserAvatarProps) {
   if (avatarUrl) {
-    return <Avatar size={size}><img src={avatarUrl} alt={nickname ?? username} /></Avatar>;
+    return <Avatar size={size}><img src={avatarUrl} alt={username} /></Avatar>;
   }
 
-  const displayName = nickname ?? username;
   return (
     <Avatar
       size={size}
       style={{ backgroundColor: getColorFromName(username) }}
     >
-      {getInitials(displayName)}
+      {getInitials(username)}
     </Avatar>
   );
 }

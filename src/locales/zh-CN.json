@@ -5,6 +5,7 @@
   },
   "nav": {
     "dashboard": "仪表盘",
+    "tenants": "租户",
     "settings": "设置",
     "logout": "退出登录"
   },
@@ -51,14 +52,9 @@
     "title": "设置",
     "profile": "个人资料",
     "security": "安全",
-    "nickname": "昵称",
-    "nicknamePlaceholder": "输入昵称",
     "emailLabel": "邮箱",
     "usernameLabel": "用户名",
-    "roleLabel": "角色",
-    "saveChanges": "保存更改",
     "changePassword": "修改密码",
-    "profileUpdated": "个人资料已更新",
     "passwordChanged": "密码已修改"
   },
   "dashboard": {
@@ -67,6 +63,18 @@
     "welcomeDefault": "欢迎回来",
     "subtitle": "以下是您的账户概览。",
     "editProfile": "编辑资料"
+  },
+  "tenant": {
+    "title": "租户",
+    "name": "名称",
+    "role": "角色",
+    "create": "创建租户",
+    "createTitle": "创建新租户",
+    "namePlaceholder": "请输入租户名称",
+    "nameRequired": "请输入租户名称",
+    "createSuccess": "租户创建成功",
+    "updateSuccess": "租户更新成功",
+    "noTenantsDesc": "创建您的第一个租户以开始使用。"
   },
   "common": {
     "loading": "加载中...",

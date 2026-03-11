@@ -1,5 +1,5 @@
 import { Button } from '@arco-design/web-react';
-import { IconEmail, IconUser, IconSafe } from '@arco-design/web-react/icon';
+import { IconEmail, IconUser } from '@arco-design/web-react/icon';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
@@ -13,8 +13,8 @@ export default function DashboardPage() {
 
   useDocumentTitle(t('dashboard.title'));
 
-  const welcomeText = user?.nickname
-    ? t('dashboard.welcome', { name: user.nickname })
+  const welcomeText = user?.username
+    ? t('dashboard.welcome', { name: user.username })
     : t('dashboard.welcomeDefault');
 
   return (
@@ -42,15 +42,6 @@ export default function DashboardPage() {
           <div className="dashboard__stat-content">
             <span className="dashboard__stat-label">{t('settings.usernameLabel')}</span>
             <span className="dashboard__stat-value">{user?.username || '—'}</span>
-          </div>
-        </div>
-        <div className="dashboard__stat-card dashboard__stat-card--purple">
-          <div className="dashboard__stat-icon">
-            <IconSafe />
-          </div>
-          <div className="dashboard__stat-content">
-            <span className="dashboard__stat-label">{t('settings.roleLabel')}</span>
-            <span className="dashboard__stat-value">{user?.role || '—'}</span>
           </div>
         </div>
       </div>

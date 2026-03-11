@@ -10,6 +10,7 @@ const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'));
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPasswordPage'));
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPasswordPage'));
 const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage'));
+const TenantPage = lazy(() => import('@/pages/tenant/TenantPage'));
 const SettingsPage = lazy(() => import('@/pages/settings/SettingsPage'));
 
 function SuspenseWrapper({ children }: { children: React.ReactNode }) {
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
           {
             path: '/dashboard',
             element: <SuspenseWrapper><DashboardPage /></SuspenseWrapper>,
+          },
+          {
+            path: '/tenants',
+            element: <SuspenseWrapper><TenantPage /></SuspenseWrapper>,
           },
           {
             path: '/settings',
