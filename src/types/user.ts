@@ -1,9 +1,7 @@
 export interface UserProfile {
   username: string;
-  nickname: string | null;
   email: string;
   avatar_url: string | null;
-  role: string;
   is_active: boolean;
 }
 

@@ -17,12 +17,11 @@ export default function ProfileTab() {
       <div className="profile-tab__user-card">
         <UserAvatar
           username={user.username}
-          nickname={user.nickname}
           avatarUrl={user.avatar_url}
           size={64}
         />
         <div>
-          <div className="profile-tab__user-name">{user.nickname || user.username}</div>
+          <div className="profile-tab__user-name">{user.username}</div>
           <div className="profile-tab__user-email">{user.email}</div>
         </div>
       </div>
@@ -30,17 +29,11 @@ export default function ProfileTab() {
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 18 }}
       >
-        <FormItem label={t('settings.nickname')}>
-          <Input value={user.nickname || ''} disabled />
-        </FormItem>
         <FormItem label={t('settings.emailLabel')}>
           <Input value={user.email} disabled />
         </FormItem>
         <FormItem label={t('settings.usernameLabel')}>
           <Input value={user.username} disabled />
-        </FormItem>
-        <FormItem label={t('settings.roleLabel')}>
-          <Input value={user.role} disabled />
         </FormItem>
       </Form>
     </div>

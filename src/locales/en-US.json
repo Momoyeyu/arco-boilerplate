@@ -52,10 +52,8 @@
     "title": "Settings",
     "profile": "Profile",
     "security": "Security",
-    "nickname": "Nickname",
     "emailLabel": "Email",
     "usernameLabel": "Username",
-    "roleLabel": "Role",
     "changePassword": "Change Password",
     "passwordChanged": "Password changed"
   },
@@ -69,7 +67,7 @@
   "tenant": {
     "title": "Tenants",
     "name": "Name",
-    "status": "Status",
+    "role": "Role",
     "create": "Create Tenant",
     "createTitle": "Create New Tenant",
     "namePlaceholder": "Enter tenant name",

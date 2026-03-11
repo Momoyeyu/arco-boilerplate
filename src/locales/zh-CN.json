@@ -52,10 +52,8 @@
     "title": "设置",
     "profile": "个人资料",
     "security": "安全",
-    "nickname": "昵称",
     "emailLabel": "邮箱",
     "usernameLabel": "用户名",
-    "roleLabel": "角色",
     "changePassword": "修改密码",
     "passwordChanged": "密码已修改"
   },
@@ -69,7 +67,7 @@
   "tenant": {
     "title": "租户",
     "name": "名称",
-    "status": "状态",
+    "role": "角色",
     "create": "创建租户",
     "createTitle": "创建新租户",
     "namePlaceholder": "请输入租户名称",

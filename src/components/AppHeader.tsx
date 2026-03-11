@@ -23,12 +23,11 @@ export default function AppHeader({ user, onLogout }: AppHeaderProps) {
         <div className="app-header__user-info">
           <UserAvatar
             username={user.username}
-            nickname={user.nickname}
             avatarUrl={user.avatar_url}
             size={28}
           />
           <span className="app-header__username">
-            {user.nickname || user.username}
+            {user.username}
           </span>
           <Tooltip content={t('nav.logout')}>
             <Button

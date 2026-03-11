@@ -6,7 +6,7 @@ import PageHeader from '@/components/PageHeader';
 import { tenantApi } from '@/api/tenant';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { toast } from '@/utils/message';
-import type { Tenant } from '@/types/tenant';
+import type { TenantListItem } from '@/types/tenant';
 import type { BizError } from '@/api/client';
 import './TenantPage.less';
 
@@ -14,7 +14,7 @@ const FormItem = Form.Item;
 
 export default function TenantPage() {
   const { t } = useTranslation();
-  const [tenants, setTenants] = useState<Tenant[]>([]);
+  const [tenants, setTenants] = useState<TenantListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [createVisible, setCreateVisible] = useState(false);
@@ -67,13 +67,13 @@ export default function TenantPage() {
   const columns = [
     {
       title: t('tenant.name'),
-      dataIndex: 'name',
+      dataIndex: 'tenant_name',
     },
     {
-      title: t('tenant.status'),
-      dataIndex: 'status',
-      render: (status: string) => (
-        <Tag color={status === 'active' ? 'green' : 'gray'}>{status}</Tag>
+      title: t('tenant.role'),
+      dataIndex: 'user_role',
+      render: (role: string) => (
+        <Tag color={role === 'owner' ? 'blue' : 'gray'}>{role}</Tag>
       ),
     },
   ];
@@ -109,7 +109,7 @@ export default function TenantPage() {
         loading={loading}
         columns={columns}
         data={tenants}
-        rowKey="id"
+        rowKey="tenant_id"
         pagination={false}
         border={false}
       />

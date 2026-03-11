@@ -1,10 +1,13 @@
+export interface TenantListItem {
+  tenant_id: number;
+  tenant_name: string;
+  user_role: string;
+}
+
 export interface Tenant {
   id: number;
   name: string;
   status: string;
-  owner_id: number;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface TenantCreateRequest {

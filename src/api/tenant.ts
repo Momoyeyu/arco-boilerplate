@@ -1,5 +1,6 @@
 import client from './client';
 import type {
+  TenantListItem,
   Tenant,
   TenantCreateRequest,
   TenantUpdateRequest,
@@ -7,7 +8,7 @@ import type {
 
 export const tenantApi = {
   list() {
-    return client.get<unknown, Tenant[]>('/tenant');
+    return client.get<unknown, TenantListItem[]>('/tenant');
   },
 
   get(tenantId: number) {
