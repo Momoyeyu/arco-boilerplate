@@ -9,7 +9,7 @@ export default function AuthLayout() {
 
   return (
     <div className="auth-layout">
-      <div className="auth-layout__decor">
+      <div className="auth-layout__decor" aria-hidden="true">
         <div className="auth-layout__decor-grid" />
         <div className="auth-layout__decor-shapes">
           <div className="auth-layout__decor-circle auth-layout__decor-circle--1" />
