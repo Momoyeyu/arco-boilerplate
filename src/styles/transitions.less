@@ -1,0 +1,26 @@
+@import './variables.less';
+
+.transition-all {
+  transition: all @transition-normal;
+}
+
+.transition-colors {
+  transition: background-color @transition-normal, color @transition-normal, border-color @transition-normal;
+}
+
+.transition-opacity {
+  transition: opacity @transition-normal;
+}
+
+.transition-transform {
+  transition: transform @transition-normal;
+}
+
+.hover-lift {
+  transition: transform @transition-normal, box-shadow @transition-normal;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: @shadow-md;
+  }
+}

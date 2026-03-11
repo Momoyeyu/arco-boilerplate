@@ -1,0 +1,83 @@
+{
+  "app": {
+    "name": "Arco Boilerplate"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "email": "Email",
+    "username": "Username or Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "oldPassword": "Current Password",
+    "invitationCode": "Invitation Code",
+    "invitationCodePlaceholder": "Optional",
+    "verificationCode": "Verification Code",
+    "sendCode": "Send Code",
+    "resendCode": "Resend",
+    "resendCountdown": "Resend in {{seconds}}s",
+    "verify": "Verify",
+    "loginButton": "Log In",
+    "registerButton": "Register",
+    "resetButton": "Reset Password",
+    "sendResetCode": "Send Reset Code",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "goLogin": "Log in",
+    "goRegister": "Sign up",
+    "goForgotPassword": "Forgot password?",
+    "codeSent": "Verification code sent to {{email}}",
+    "registerSuccess": "Registration successful, please log in",
+    "resetSuccess": "Password reset successful, please log in",
+    "loginSuccess": "Login successful",
+    "logoutSuccess": "Logged out",
+    "passwordMismatch": "Passwords do not match",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "codeRequired": "Verification code is required",
+    "emailInvalid": "Invalid email format"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "security": "Security",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Enter nickname",
+    "emailLabel": "Email",
+    "usernameLabel": "Username",
+    "roleLabel": "Role",
+    "saveChanges": "Save Changes",
+    "changePassword": "Change Password",
+    "profileUpdated": "Profile updated",
+    "passwordChanged": "Password changed"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {{name}}",
+    "welcomeDefault": "Welcome back",
+    "subtitle": "Here's an overview of your account.",
+    "editProfile": "Edit Profile"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "reload": "Reload",
+    "errorBoundaryTitle": "Something went wrong",
+    "errorBoundaryDesc": "Please try refreshing the page"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}

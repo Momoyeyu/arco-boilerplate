@@ -1,0 +1,42 @@
+@import '../../styles/variables.less';
+
+.profile-tab {
+  max-width: 480px;
+
+  &__user-card {
+    display: flex;
+    align-items: center;
+    gap: @spacing-md;
+    margin-bottom: @spacing-xl;
+    padding: @spacing-md;
+    background: @color-bg-secondary;
+    border-radius: @border-radius-lg;
+  }
+
+  &__user-name {
+    font-weight: @font-weight-medium;
+    font-size: @font-size-lg;
+    color: @color-text-primary;
+  }
+
+  &__user-email {
+    font-size: @font-size-sm;
+    color: @color-text-secondary;
+    margin-top: @spacing-xxs;
+  }
+}
+
+// Dark mode
+body[arco-theme='dark'] {
+  .profile-tab__user-card {
+    background: var(--color-bg-3);
+  }
+
+  .profile-tab__user-name {
+    color: var(--color-text-1);
+  }
+
+  .profile-tab__user-email {
+    color: var(--color-text-2);
+  }
+}
