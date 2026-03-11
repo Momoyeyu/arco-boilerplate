@@ -8,8 +8,7 @@ export interface UserProfile {
 }
 
 export interface UpdateProfileRequest {
-  nickname?: string;
-  avatar_url?: string;
+  avatar_url?: string | null;
 }
 
 export interface ChangePasswordRequest {

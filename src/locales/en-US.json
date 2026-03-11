@@ -5,6 +5,7 @@
   },
   "nav": {
     "dashboard": "Dashboard",
+    "tenants": "Tenants",
     "settings": "Settings",
     "logout": "Logout"
   },
@@ -67,6 +68,21 @@
     "welcomeDefault": "Welcome back",
     "subtitle": "Here's an overview of your account.",
     "editProfile": "Edit Profile"
+  },
+  "tenant": {
+    "title": "Tenants",
+    "name": "Name",
+    "status": "Status",
+    "owner": "Owner",
+    "createdAt": "Created",
+    "create": "Create Tenant",
+    "createTitle": "Create New Tenant",
+    "namePlaceholder": "Enter tenant name",
+    "nameRequired": "Tenant name is required",
+    "createSuccess": "Tenant created",
+    "updateSuccess": "Tenant updated",
+    "noTenants": "No tenants yet",
+    "noTenantsDesc": "Create your first tenant to get started."
   },
   "common": {
     "loading": "Loading...",

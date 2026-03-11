@@ -5,6 +5,7 @@
   },
   "nav": {
     "dashboard": "仪表盘",
+    "tenants": "租户",
     "settings": "设置",
     "logout": "退出登录"
   },
@@ -67,6 +68,21 @@
     "welcomeDefault": "欢迎回来",
     "subtitle": "以下是您的账户概览。",
     "editProfile": "编辑资料"
+  },
+  "tenant": {
+    "title": "租户",
+    "name": "名称",
+    "status": "状态",
+    "owner": "所有者",
+    "createdAt": "创建时间",
+    "create": "创建租户",
+    "createTitle": "创建新租户",
+    "namePlaceholder": "请输入租户名称",
+    "nameRequired": "请输入租户名称",
+    "createSuccess": "租户创建成功",
+    "updateSuccess": "租户更新成功",
+    "noTenants": "暂无租户",
+    "noTenantsDesc": "创建您的第一个租户以开始使用。"
   },
   "common": {
     "loading": "加载中...",
