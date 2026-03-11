@@ -110,6 +110,12 @@ client.interceptors.response.use(
     return Promise.reject(new BizError(body.code, body.message));
   },
   (error) => {
+    if (error.response?.data) {
+      const body = error.response.data as ApiResponse;
+      if (body.code && body.message) {
+        return Promise.reject(new BizError(body.code, body.message));
+      }
+    }
     return Promise.reject(error);
   },
 );
