@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Button, Modal, Form, Input, Table, Tag, Empty } from '@arco-design/web-react';
+import { Button, Modal, Form, Input, Table, Tag, Empty, Result } from '@arco-design/web-react';
 import { IconPlus } from '@arco-design/web-react/icon';
 import { useTranslation } from 'react-i18next';
 import PageHeader from '@/components/PageHeader';
@@ -16,6 +16,7 @@ export default function TenantPage() {
   const { t } = useTranslation();
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [createVisible, setCreateVisible] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
   const [form] = Form.useForm();
@@ -24,12 +25,14 @@ export default function TenantPage() {
 
   const fetchTenants = useCallback(async () => {
     setLoading(true);
+    setFetchError(false);
     try {
       const data = await tenantApi.list();
       setTenants(data);
     } catch (err) {
       const bizErr = err as BizError;
       toast.error(bizErr.message || t('common.error'));
+      setFetchError(true);
     } finally {
       setLoading(false);
     }
@@ -40,6 +43,7 @@ export default function TenantPage() {
   }, [fetchTenants]);
 
   const handleCreate = async (values: { name: string }) => {
+    if (createLoading) return;
     setCreateLoading(true);
     try {
       await tenantApi.create(values);
@@ -53,6 +57,11 @@ export default function TenantPage() {
     } finally {
       setCreateLoading(false);
     }
+  };
+
+  const handleCancelCreate = () => {
+    setCreateVisible(false);
+    form.resetFields();
   };
 
   const columns = [
@@ -69,6 +78,44 @@ export default function TenantPage() {
     },
   ];
 
+  const renderContent = () => {
+    if (fetchError) {
+      return (
+        <Result status="error" title={t('common.error')}>
+          <Button type="primary" onClick={fetchTenants}>
+            {t('common.retry')}
+          </Button>
+        </Result>
+      );
+    }
+
+    if (!loading && tenants.length === 0) {
+      return (
+        <div className="tenant-page__empty">
+          <Empty description={t('tenant.noTenantsDesc')} />
+          <Button
+            type="primary"
+            onClick={() => setCreateVisible(true)}
+            style={{ marginTop: 16 }}
+          >
+            {t('tenant.create')}
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <Table
+        loading={loading}
+        columns={columns}
+        data={tenants}
+        rowKey="id"
+        pagination={false}
+        border={false}
+      />
+    );
+  };
+
   return (
     <div className="tenant-page">
       <PageHeader
@@ -84,32 +131,12 @@ export default function TenantPage() {
         }
       />
 
-      {!loading && tenants.length === 0 ? (
-        <div className="tenant-page__empty">
-          <Empty description={t('tenant.noTenantsDesc')} />
-          <Button
-            type="primary"
-            onClick={() => setCreateVisible(true)}
-            style={{ marginTop: 16 }}
-          >
-            {t('tenant.create')}
-          </Button>
-        </div>
-      ) : (
-        <Table
-          loading={loading}
-          columns={columns}
-          data={tenants}
-          rowKey="id"
-          pagination={false}
-          border={false}
-        />
-      )}
+      {renderContent()}
 
       <Modal
         title={t('tenant.createTitle')}
         visible={createVisible}
-        onCancel={() => setCreateVisible(false)}
+        onCancel={handleCancelCreate}
         footer={null}
         autoFocus={false}
         focusLock
