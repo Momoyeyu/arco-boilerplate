@@ -4,7 +4,9 @@ import { Form, Input, Button } from '@arco-design/web-react';
 import UserAvatar from '@/components/UserAvatar';
 import { useAuthStore } from '@/stores/authStore';
 import { userApi } from '@/api/user';
+import { authApi } from '@/api/auth';
 import { toast } from '@/utils/message';
+import { getRefreshToken, setTokens } from '@/utils/token';
 import './ProfileTab.less';
 
 const FormItem = Form.Item;
@@ -24,6 +26,14 @@ export default function ProfileTab() {
     try {
       await userApi.updateProfile({ username });
       updateUser({ username });
+      // Refresh token since JWT sub is based on username
+      if (username !== user.username) {
+        const refreshToken = getRefreshToken();
+        if (refreshToken) {
+          const tokens = await authApi.refreshToken(refreshToken);
+          setTokens(tokens.access_token, tokens.refresh_token);
+        }
+      }
       toast.success(t('settings.saveSuccess'));
     } catch {
       toast.error(t('common.error'));
