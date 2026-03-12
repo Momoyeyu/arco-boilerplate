@@ -11,7 +11,9 @@ const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPasswordPage'))
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPasswordPage'));
 const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage'));
 const TenantPage = lazy(() => import('@/pages/tenant/TenantPage'));
+const TenantDetailPage = lazy(() => import('@/pages/tenant/TenantDetailPage'));
 const SettingsPage = lazy(() => import('@/pages/settings/SettingsPage'));
+const InviteAcceptPage = lazy(() => import('@/pages/auth/InviteAcceptPage'));
 
 function SuspenseWrapper({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -41,6 +43,10 @@ export const router = createBrowserRouter([
         path: '/reset-password',
         element: <SuspenseWrapper><ResetPasswordPage /></SuspenseWrapper>,
       },
+      {
+        path: '/invite/accept',
+        element: <SuspenseWrapper><InviteAcceptPage /></SuspenseWrapper>,
+      },
     ],
   },
   {
@@ -56,6 +62,10 @@ export const router = createBrowserRouter([
           {
             path: '/tenants',
             element: <SuspenseWrapper><TenantPage /></SuspenseWrapper>,
+          },
+          {
+            path: '/tenants/:tenantId',
+            element: <SuspenseWrapper><TenantDetailPage /></SuspenseWrapper>,
           },
           {
             path: '/settings',

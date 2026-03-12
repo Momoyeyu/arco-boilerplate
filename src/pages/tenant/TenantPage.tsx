@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Button, Modal, Form, Input, Table, Tag, Empty, Result } from '@arco-design/web-react';
 import { IconPlus } from '@arco-design/web-react/icon';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import { tenantApi } from '@/api/tenant';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -68,6 +69,9 @@ export default function TenantPage() {
     {
       title: t('tenant.name'),
       dataIndex: 'tenant_name',
+      render: (name: string, record: TenantListItem) => (
+        <Link to={`/tenants/${record.tenant_id}`}>{name}</Link>
+      ),
     },
     {
       title: t('tenant.role'),
