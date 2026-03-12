@@ -55,7 +55,10 @@
     "emailLabel": "邮箱",
     "usernameLabel": "用户名",
     "changePassword": "修改密码",
-    "passwordChanged": "密码已修改"
+    "passwordChanged": "密码已修改",
+    "save": "保存",
+    "saveSuccess": "资料已更新",
+    "usernamePlaceholder": "请输入用户名"
   },
   "dashboard": {
     "title": "仪表盘",
