@@ -6,6 +6,7 @@ export interface UserProfile {
 }
 
 export interface UpdateProfileRequest {
+  username?: string | null;
   avatar_url?: string | null;
 }
 

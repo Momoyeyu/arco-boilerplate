@@ -10,6 +10,10 @@ export const userApi = {
     return client.get<unknown, UserProfile>('/user/me');
   },
 
+  whoami() {
+    return client.get<unknown, UserProfile>('/user/whoami');
+  },
+
   updateProfile(data: UpdateProfileRequest) {
     return client.post<unknown, UserProfile>('/user/me', data);
   },

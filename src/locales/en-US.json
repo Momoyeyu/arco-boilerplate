@@ -55,7 +55,10 @@
     "emailLabel": "Email",
     "usernameLabel": "Username",
     "changePassword": "Change Password",
-    "passwordChanged": "Password changed"
+    "passwordChanged": "Password changed",
+    "save": "Save",
+    "saveSuccess": "Profile updated",
+    "usernamePlaceholder": "Enter username"
   },
   "dashboard": {
     "title": "Dashboard",
