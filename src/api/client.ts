@@ -43,6 +43,64 @@ function processQueue(error: unknown, token: string | null) {
   refreshQueue = [];
 }
 
+// Handle 401 by attempting token refresh
+async function handleUnauthorized(
+  originalRequest: InternalAxiosRequestConfig & { _retried?: boolean },
+  bizCode: number,
+  bizMessage: string,
+): Promise<unknown> {
+  if (originalRequest._retried) {
+    clearTokens();
+    window.location.href = '/login';
+    return Promise.reject(new BizError(bizCode, bizMessage));
+  }
+
+  if (!isRefreshing) {
+    isRefreshing = true;
+    const refreshToken = getRefreshToken();
+
+    if (!refreshToken) {
+      clearTokens();
+      window.location.href = '/login';
+      return Promise.reject(new BizError(bizCode, bizMessage));
+    }
+
+    try {
+      // Use raw axios to avoid interceptor loop
+      const res = await axios.post<ApiResponse>(
+        `${import.meta.env.VITE_API_BASE_URL}/auth/token/refresh`,
+        { refresh_token: refreshToken },
+      );
+      const data = res.data.data as { access_token: string; refresh_token: string };
+      setTokens(data.access_token, data.refresh_token);
+      processQueue(null, data.access_token);
+
+      originalRequest._retried = true;
+      originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
+      return client(originalRequest);
+    } catch (err) {
+      processQueue(err, null);
+      clearTokens();
+      window.location.href = '/login';
+      return Promise.reject(err);
+    } finally {
+      isRefreshing = false;
+    }
+  }
+
+  // Queue this request while refresh is in progress
+  return new Promise((resolve, reject) => {
+    refreshQueue.push({
+      resolve: (token: string) => {
+        originalRequest._retried = true;
+        originalRequest.headers.Authorization = `Bearer ${token}`;
+        resolve(client(originalRequest));
+      },
+      reject,
+    });
+  });
+}
+
 // Response interceptor: unwrap envelope + handle 401
 client.interceptors.response.use(
   async (response) => {
@@ -54,62 +112,21 @@ client.interceptors.response.use(
 
     if (body.code === BizCode.Unauthorized) {
       const originalRequest = response.config as InternalAxiosRequestConfig & { _retried?: boolean };
-
-      if (originalRequest._retried) {
-        clearTokens();
-        window.location.href = '/login';
-        return Promise.reject(new BizError(body.code, body.message));
-      }
-
-      if (!isRefreshing) {
-        isRefreshing = true;
-        const refreshToken = getRefreshToken();
-
-        if (!refreshToken) {
-          clearTokens();
-          window.location.href = '/login';
-          return Promise.reject(new BizError(body.code, body.message));
-        }
-
-        try {
-          // Use raw axios to avoid interceptor loop
-          const res = await axios.post<ApiResponse>(
-            `${import.meta.env.VITE_API_BASE_URL}/auth/token/refresh`,
-            { refresh_token: refreshToken },
-          );
-          const data = res.data.data as { access_token: string; refresh_token: string };
-          setTokens(data.access_token, data.refresh_token);
-          processQueue(null, data.access_token);
-
-          originalRequest._retried = true;
-          originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
-          return client(originalRequest);
-        } catch (err) {
-          processQueue(err, null);
-          clearTokens();
-          window.location.href = '/login';
-          return Promise.reject(err);
-        } finally {
-          isRefreshing = false;
-        }
-      }
-
-      // Queue this request while refresh is in progress
-      return new Promise((resolve, reject) => {
-        refreshQueue.push({
-          resolve: (token: string) => {
-            originalRequest._retried = true;
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            resolve(client(originalRequest));
-          },
-          reject,
-        });
-      });
+      return handleUnauthorized(originalRequest, body.code, body.message);
     }
 
     return Promise.reject(new BizError(body.code, body.message));
   },
-  (error) => {
+  async (error) => {
+    // Handle HTTP 401 responses with token refresh
+    if (error.response?.status === 401) {
+      const originalRequest = error.config as InternalAxiosRequestConfig & { _retried?: boolean };
+      const body = error.response.data as ApiResponse | undefined;
+      const code = body?.code ?? BizCode.Unauthorized;
+      const message = body?.message ?? 'Unauthorized';
+      return handleUnauthorized(originalRequest, code, message);
+    }
+
     if (error.response?.data) {
       const body = error.response.data as ApiResponse;
       if (body.code && body.message) {
