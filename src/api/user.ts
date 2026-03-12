@@ -2,6 +2,7 @@ import client from './client';
 import type {
   UserProfile,
   UpdateProfileRequest,
+  UpdateProfileResponse,
   ChangePasswordRequest,
 } from '@/types/user';
 
@@ -15,7 +16,7 @@ export const userApi = {
   },
 
   updateProfile(data: UpdateProfileRequest) {
-    return client.post<unknown, UserProfile>('/user/me', data);
+    return client.post<unknown, UpdateProfileResponse>('/user/me', data);
   },
 
   changePassword(data: ChangePasswordRequest) {
