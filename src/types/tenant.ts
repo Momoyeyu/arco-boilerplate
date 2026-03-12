@@ -18,3 +18,21 @@ export interface TenantUpdateRequest {
   name?: string | null;
   status?: string | null;
 }
+
+export interface TenantInviteRequest {
+  email: string;
+  role?: string;
+}
+
+export interface TenantInviteAcceptRequest {
+  token: string;
+  password: string;
+}
+
+export interface TenantInvitation {
+  id: string;
+  email: string;
+  role: string;
+  status: string;
+  created_at: string;
+}

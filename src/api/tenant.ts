@@ -4,7 +4,11 @@ import type {
   Tenant,
   TenantCreateRequest,
   TenantUpdateRequest,
+  TenantInviteRequest,
+  TenantInvitation,
+  TenantInviteAcceptRequest,
 } from '@/types/tenant';
+import type { LoginResponse } from '@/types/auth';
 
 export const tenantApi = {
   list() {
@@ -21,5 +25,17 @@ export const tenantApi = {
 
   update(tenantId: string, data: TenantUpdateRequest) {
     return client.put<unknown, Tenant>(`/tenant/${tenantId}`, data);
+  },
+
+  invite(tenantId: string, data: TenantInviteRequest) {
+    return client.post<unknown, null>(`/tenant/${tenantId}/invite`, data);
+  },
+
+  listInvitations(tenantId: string) {
+    return client.get<unknown, TenantInvitation[]>(`/tenant/${tenantId}/invitations`);
+  },
+
+  acceptInvite(data: TenantInviteAcceptRequest) {
+    return client.post<unknown, LoginResponse>('/tenant/invite/accept', data);
   },
 };
