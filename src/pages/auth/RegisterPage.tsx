@@ -4,6 +4,8 @@ import { IconEmail, IconLock, IconCode, IconIdcard } from '@arco-design/web-reac
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { authApi } from '@/api/auth';
+import { useAuthStore } from '@/stores/authStore';
+import { setTokens } from '@/utils/token';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { toast } from '@/utils/message';
 import type { BizError } from '@/api/client';
@@ -13,6 +15,7 @@ const FormItem = Form.Item;
 export default function RegisterPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const fetchUser = useAuthStore((s) => s.fetchUser);
   const [step, setStep] = useState<1 | 2>(1);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -86,9 +89,11 @@ export default function RegisterPage() {
     }
     setLoading(true);
     try {
-      await authApi.registerVerify({ email, code, password });
-      toast.success(t('auth.registerSuccess'));
-      navigate('/login', { replace: true });
+      const res = await authApi.registerVerify({ email, code, password });
+      setTokens(res.access_token, res.refresh_token);
+      await fetchUser();
+      toast.success(t('auth.loginSuccess'));
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       const bizErr = err as BizError;
       toast.error(bizErr.message || t('common.error'));
