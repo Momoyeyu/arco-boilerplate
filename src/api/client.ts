@@ -4,6 +4,18 @@ import type { ApiResponse } from '@/types/api';
 import { BizCode } from '@/types/api';
 import { getAccessToken, getRefreshToken, setTokens, clearTokens } from '@/utils/token';
 
+// Callback to notify auth store when session is invalidated.
+// Set by authStore to avoid circular imports.
+let onSessionExpired: (() => void) | null = null;
+export function setOnSessionExpired(cb: () => void) {
+  onSessionExpired = cb;
+}
+
+function invalidateSession() {
+  clearTokens();
+  onSessionExpired?.();
+}
+
 export class BizError extends Error {
   code: number;
   constructor(code: number, message: string) {
@@ -61,8 +73,7 @@ async function handleUnauthorized(
   }
 
   if (originalRequest._retried) {
-    clearTokens();
-    window.location.href = '/login';
+    invalidateSession();
     return Promise.reject(new BizError(bizCode, bizMessage));
   }
 
@@ -71,8 +82,7 @@ async function handleUnauthorized(
     const refreshToken = getRefreshToken();
 
     if (!refreshToken) {
-      clearTokens();
-      window.location.href = '/login';
+      invalidateSession();
       return Promise.reject(new BizError(bizCode, bizMessage));
     }
 
@@ -91,8 +101,7 @@ async function handleUnauthorized(
       return client(originalRequest);
     } catch (err) {
       processQueue(err, null);
-      clearTokens();
-      window.location.href = '/login';
+      invalidateSession();
       return Promise.reject(err);
     } finally {
       isRefreshing = false;

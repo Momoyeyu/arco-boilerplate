@@ -3,6 +3,7 @@ import type { UserProfile } from '@/types/user';
 import type { LoginRequest } from '@/types/auth';
 import { authApi } from '@/api/auth';
 import { userApi } from '@/api/user';
+import { setOnSessionExpired } from '@/api/client';
 import { getAccessToken, getRefreshToken, setTokens, clearTokens } from '@/utils/token';
 
 interface AuthState {
@@ -16,7 +17,11 @@ interface AuthState {
   updateUser: (partial: Partial<UserProfile>) => void;
 }
 
-export const useAuthStore = create<AuthState>()((set, get) => ({
+export const useAuthStore = create<AuthState>()((set, get) => {
+  // Register callback so HTTP client can invalidate auth state without circular imports
+  setOnSessionExpired(() => set({ user: null, isAuthenticated: false }));
+
+  return {
   user: null,
   isAuthenticated: !!getAccessToken(),
   isLoading: false,
@@ -63,4 +68,4 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       set({ user: { ...current, ...partial } });
     }
   },
-}));
+};});
