@@ -6,9 +6,7 @@ import type {
   TenantUpdateRequest,
   TenantInviteRequest,
   TenantInvitation,
-  TenantInviteAcceptRequest,
 } from '@/types/tenant';
-import type { LoginResponse } from '@/types/auth';
 
 export const tenantApi = {
   list() {
@@ -35,7 +33,7 @@ export const tenantApi = {
     return client.get<unknown, TenantInvitation[]>(`/tenant/${tenantId}/invitations`);
   },
 
-  acceptInvite(data: TenantInviteAcceptRequest) {
-    return client.post<unknown, LoginResponse>('/tenant/invite/accept', data);
+  cancelInvitation(tenantId: string, invitationId: string) {
+    return client.delete<unknown, null>(`/tenant/${tenantId}/invitations/${invitationId}`);
   },
 };

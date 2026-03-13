@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Button, Modal, Form, Input, Select, Table, Tag, Empty, Result, Spin } from '@arco-design/web-react';
-import { IconPlus, IconLeft } from '@arco-design/web-react/icon';
+import { Button, Modal, Form, Input, Select, Table, Tag, Empty, Result, Spin, Popconfirm } from '@arco-design/web-react';
+import { IconPlus, IconLeft, IconDelete } from '@arco-design/web-react/icon';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import { tenantApi } from '@/api/tenant';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { toast } from '@/utils/message';
-import type { Tenant, TenantInvitation } from '@/types/tenant';
+import type { Tenant, TenantInvitation, TenantListItem } from '@/types/tenant';
 import type { BizError } from '@/api/client';
 import './TenantDetailPage.less';
 
@@ -18,6 +18,7 @@ export default function TenantDetailPage() {
   const { tenantId } = useParams<{ tenantId: string }>();
   const navigate = useNavigate();
   const [tenant, setTenant] = useState<Tenant | null>(null);
+  const [userRole, setUserRole] = useState<string>('member');
   const [invitations, setInvitations] = useState<TenantInvitation[]>([]);
   const [loading, setLoading] = useState(true);
   const [invitationsLoading, setInvitationsLoading] = useState(false);
@@ -28,13 +29,20 @@ export default function TenantDetailPage() {
 
   useDocumentTitle(t('tenant.detail'));
 
+  const canManageInvitations = userRole === 'owner' || userRole === 'admin';
+
   const fetchTenant = useCallback(async () => {
     if (!tenantId) return;
     setLoading(true);
     setFetchError(false);
     try {
-      const data = await tenantApi.get(tenantId);
-      setTenant(data);
+      const [detail, list] = await Promise.all([
+        tenantApi.get(tenantId),
+        tenantApi.list(),
+      ]);
+      setTenant(detail);
+      const match = (list as TenantListItem[]).find((item) => item.tenant_id === tenantId);
+      if (match) setUserRole(match.user_role);
     } catch (err) {
       const bizErr = err as BizError;
       toast.error(bizErr.message || t('common.error'));
@@ -60,8 +68,13 @@ export default function TenantDetailPage() {
 
   useEffect(() => {
     fetchTenant();
-    fetchInvitations();
-  }, [fetchTenant, fetchInvitations]);
+  }, [fetchTenant]);
+
+  useEffect(() => {
+    if (canManageInvitations) {
+      fetchInvitations();
+    }
+  }, [canManageInvitations, fetchInvitations]);
 
   const handleInvite = async (values: { email: string; role?: string }) => {
     if (!tenantId || inviteLoading) return;
@@ -83,6 +96,18 @@ export default function TenantDetailPage() {
   const handleCancelInvite = () => {
     setInviteVisible(false);
     form.resetFields();
+  };
+
+  const handleCancelInvitation = async (invitationId: string) => {
+    if (!tenantId) return;
+    try {
+      await tenantApi.cancelInvitation(tenantId, invitationId);
+      toast.success(t('tenant.cancelSuccess'));
+      fetchInvitations();
+    } catch (err) {
+      const bizErr = err as BizError;
+      toast.error(bizErr.message || t('common.error'));
+    }
   };
 
   const getStatusTag = (status: string) => {
@@ -121,6 +146,21 @@ export default function TenantDetailPage() {
       dataIndex: 'status',
       render: (status: string) => getStatusTag(status),
     },
+    {
+      title: '',
+      dataIndex: 'id',
+      render: (id: string, record: TenantInvitation) =>
+        record.status === 'pending' ? (
+          <Popconfirm
+            title={t('tenant.cancelConfirm')}
+            onOk={() => handleCancelInvitation(id)}
+          >
+            <Button type="text" status="danger" icon={<IconDelete />} size="small">
+              {t('tenant.cancel')}
+            </Button>
+          </Popconfirm>
+        ) : null,
+    },
   ];
 
   if (loading) {
@@ -157,31 +197,33 @@ export default function TenantDetailPage() {
 
       <PageHeader title={tenant.name} />
 
-      <div className="tenant-detail-page__section">
-        <div className="tenant-detail-page__section-header">
-          <h3>{t('tenant.invitations')}</h3>
-          <Button
-            type="primary"
-            icon={<IconPlus />}
-            onClick={() => setInviteVisible(true)}
-          >
-            {t('tenant.invite')}
-          </Button>
-        </div>
+      {canManageInvitations && (
+        <div className="tenant-detail-page__section">
+          <div className="tenant-detail-page__section-header">
+            <h3>{t('tenant.invitations')}</h3>
+            <Button
+              type="primary"
+              icon={<IconPlus />}
+              onClick={() => setInviteVisible(true)}
+            >
+              {t('tenant.invite')}
+            </Button>
+          </div>
 
-        {!invitationsLoading && invitations.length === 0 ? (
-          <Empty description={t('tenant.noInvitations')} />
-        ) : (
-          <Table
-            loading={invitationsLoading}
-            columns={invitationColumns}
-            data={invitations}
-            rowKey="id"
-            pagination={false}
-            border={false}
-          />
-        )}
-      </div>
+          {!invitationsLoading && invitations.length === 0 ? (
+            <Empty description={t('tenant.noInvitations')} />
+          ) : (
+            <Table
+              loading={invitationsLoading}
+              columns={invitationColumns}
+              data={invitations}
+              rowKey="id"
+              pagination={false}
+              border={false}
+            />
+          )}
+        </div>
+      )}
 
       <Modal
         title={t('tenant.inviteTitle')}

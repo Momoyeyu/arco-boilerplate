@@ -98,7 +98,10 @@
     "inviteAcceptButton": "Accept & Join",
     "inviteAcceptSuccess": "Successfully joined the team",
     "inviteTokenMissing": "Invalid invitation link",
-    "sentAt": "Sent At"
+    "sentAt": "Sent At",
+    "cancel": "Cancel",
+    "cancelConfirm": "Are you sure you want to cancel this invitation?",
+    "cancelSuccess": "Invitation cancelled"
   },
   "common": {
     "loading": "Loading...",

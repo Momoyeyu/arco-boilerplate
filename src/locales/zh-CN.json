@@ -98,7 +98,10 @@
     "inviteAcceptButton": "接受并加入",
     "inviteAcceptSuccess": "成功加入团队",
     "inviteTokenMissing": "邀请链接无效",
-    "sentAt": "发送时间"
+    "sentAt": "发送时间",
+    "cancel": "取消",
+    "cancelConfirm": "确定要取消此邀请吗？",
+    "cancelSuccess": "邀请已取消"
   },
   "common": {
     "loading": "加载中...",
