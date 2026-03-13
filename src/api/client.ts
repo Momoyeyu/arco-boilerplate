@@ -43,12 +43,23 @@ function processQueue(error: unknown, token: string | null) {
   refreshQueue = [];
 }
 
+// Auth endpoints should not trigger token refresh
+function isAuthRequest(config: InternalAxiosRequestConfig): boolean {
+  const url = config.url || '';
+  return url.startsWith('/auth/');
+}
+
 // Handle 401 by attempting token refresh
 async function handleUnauthorized(
   originalRequest: InternalAxiosRequestConfig & { _retried?: boolean },
   bizCode: number,
   bizMessage: string,
 ): Promise<unknown> {
+  // Auth endpoints (login, register, etc.) handle their own 401 errors
+  if (isAuthRequest(originalRequest)) {
+    return Promise.reject(new BizError(bizCode, bizMessage));
+  }
+
   if (originalRequest._retried) {
     clearTokens();
     window.location.href = '/login';
