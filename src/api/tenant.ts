@@ -32,4 +32,8 @@ export const tenantApi = {
   listInvitations(tenantId: string) {
     return client.get<unknown, TenantInvitation[]>(`/tenant/${tenantId}/invitations`);
   },
+
+  cancelInvitation(tenantId: string, invitationId: string) {
+    return client.delete<unknown, null>(`/tenant/${tenantId}/invitations/${invitationId}`);
+  },
 };

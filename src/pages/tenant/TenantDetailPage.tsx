@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Button, Modal, Form, Input, Select, Table, Tag, Empty, Result, Spin } from '@arco-design/web-react';
-import { IconPlus, IconLeft } from '@arco-design/web-react/icon';
+import { Button, Modal, Form, Input, Select, Table, Tag, Empty, Result, Spin, Popconfirm } from '@arco-design/web-react';
+import { IconPlus, IconLeft, IconDelete } from '@arco-design/web-react/icon';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
@@ -85,6 +85,18 @@ export default function TenantDetailPage() {
     form.resetFields();
   };
 
+  const handleCancelInvitation = async (invitationId: string) => {
+    if (!tenantId) return;
+    try {
+      await tenantApi.cancelInvitation(tenantId, invitationId);
+      toast.success(t('tenant.cancelSuccess'));
+      fetchInvitations();
+    } catch (err) {
+      const bizErr = err as BizError;
+      toast.error(bizErr.message || t('common.error'));
+    }
+  };
+
   const getStatusTag = (status: string) => {
     const colorMap: Record<string, string> = {
       pending: 'orange',
@@ -120,6 +132,21 @@ export default function TenantDetailPage() {
       title: '',
       dataIndex: 'status',
       render: (status: string) => getStatusTag(status),
+    },
+    {
+      title: '',
+      dataIndex: 'id',
+      render: (id: string, record: TenantInvitation) =>
+        record.status === 'pending' ? (
+          <Popconfirm
+            title={t('tenant.cancelConfirm')}
+            onOk={() => handleCancelInvitation(id)}
+          >
+            <Button type="text" status="danger" icon={<IconDelete />} size="small">
+              {t('tenant.cancel')}
+            </Button>
+          </Popconfirm>
+        ) : null,
     },
   ];
 
