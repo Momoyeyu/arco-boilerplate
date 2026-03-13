@@ -3,7 +3,7 @@ import { Form, Input, Button } from '@arco-design/web-react';
 import { IconLock } from '@arco-design/web-react/icon';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { tenantApi } from '@/api/tenant';
+import { authApi } from '@/api/auth';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { toast } from '@/utils/message';
 import { setTokens } from '@/utils/token';
@@ -40,7 +40,7 @@ export default function InviteAcceptPage() {
     }
     setLoading(true);
     try {
-      const response = await tenantApi.acceptInvite({ token, password: values.password });
+      const response = await authApi.acceptInvite({ token, password: values.password });
       setTokens(response.access_token, response.refresh_token);
       toast.success(t('tenant.inviteAcceptSuccess'));
       navigate('/dashboard', { replace: true });

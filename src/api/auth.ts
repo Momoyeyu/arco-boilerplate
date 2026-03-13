@@ -7,6 +7,7 @@ import type {
   ForgotPasswordRequest,
   ResetPasswordRequest,
 } from '@/types/auth';
+import type { TenantInviteAcceptRequest } from '@/types/tenant';
 
 export const authApi = {
   login(data: LoginRequest) {
@@ -39,5 +40,9 @@ export const authApi = {
 
   resetPassword(data: ResetPasswordRequest) {
     return client.post<unknown, null>('/auth/password/reset', data);
+  },
+
+  acceptInvite(data: TenantInviteAcceptRequest) {
+    return client.post<unknown, LoginResponse>('/auth/invite/accept', data);
   },
 };
