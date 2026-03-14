@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { toast } from '@/utils/message';
 import type { BizError } from '@/api/client';
+import SSOButtons from '@/components/SSOButtons';
 
 const FormItem = Form.Item;
 
@@ -63,6 +64,7 @@ export default function LoginPage() {
           </Button>
         </FormItem>
       </Form>
+      <SSOButtons />
       <div className="auth-layout__footer">
         {t('auth.noAccount')} <Link to="/register">{t('auth.goRegister')}</Link>
       </div>

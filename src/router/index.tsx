@@ -14,6 +14,7 @@ const TenantPage = lazy(() => import('@/pages/tenant/TenantPage'));
 const TenantDetailPage = lazy(() => import('@/pages/tenant/TenantDetailPage'));
 const SettingsPage = lazy(() => import('@/pages/settings/SettingsPage'));
 const InviteAcceptPage = lazy(() => import('@/pages/auth/InviteAcceptPage'));
+const OAuthCallbackPage = lazy(() => import('@/pages/auth/OAuthCallbackPage'));
 
 function SuspenseWrapper({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -46,6 +47,14 @@ export const router = createBrowserRouter([
       {
         path: '/invite/accept',
         element: <SuspenseWrapper><InviteAcceptPage /></SuspenseWrapper>,
+      },
+      {
+        path: '/auth/callback/:provider',
+        element: <SuspenseWrapper><OAuthCallbackPage /></SuspenseWrapper>,
+      },
+      {
+        path: '/auth/callback/:provider/link',
+        element: <SuspenseWrapper><OAuthCallbackPage /></SuspenseWrapper>,
       },
     ],
   },
