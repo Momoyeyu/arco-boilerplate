@@ -11,7 +11,6 @@ import type {
 } from '@/types/auth';
 export type { LinkedProvider } from '@/types/auth';
 import type { TenantInviteAcceptRequest } from '@/types/tenant';
-import { getAccessToken } from '@/utils/token';
 
 export const authApi = {
   login(data: LoginRequest) {
@@ -63,30 +62,23 @@ export const authApi = {
 
   /** Authenticated: start account linking */
   ssoLink(provider: string) {
-    return client.get<unknown, OAuthAuthorizeResponse>(`/auth/${provider}/link`, {
-      headers: { Authorization: `Bearer ${getAccessToken()}` },
-    });
+    return client.get<unknown, OAuthAuthorizeResponse>(`/auth/${provider}/link`);
   },
 
   /** Authenticated: complete account linking */
   ssoLinkCallback(provider: string, code: string, state: string) {
     return client.get<unknown, null>(`/auth/${provider}/link/callback`, {
       params: { code, state },
-      headers: { Authorization: `Bearer ${getAccessToken()}` },
     });
   },
 
   /** Authenticated: unlink provider */
   ssoUnlink(provider: string) {
-    return client.delete<unknown, null>(`/auth/${provider}/unlink`, {
-      headers: { Authorization: `Bearer ${getAccessToken()}` },
-    });
+    return client.delete<unknown, null>(`/auth/${provider}/unlink`);
   },
 
   /** Authenticated: list linked providers */
   ssoProviders() {
-    return client.get<unknown, LinkedProvidersResponse>('/auth/providers', {
-      headers: { Authorization: `Bearer ${getAccessToken()}` },
-    });
+    return client.get<unknown, LinkedProvidersResponse>('/auth/providers');
   },
 };

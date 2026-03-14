@@ -11,8 +11,6 @@ import './LinkedAccounts.less';
 export default function LinkedAccounts() {
   const { t } = useTranslation();
   const { startLink, loadingProvider } = useOAuth();
-
-  if (oauthProviders.length === 0) return null;
   const [providers, setProviders] = useState<LinkedProvider[]>([]);
   const [hasPassword, setHasPassword] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -31,8 +29,10 @@ export default function LinkedAccounts() {
   }, []);
 
   useEffect(() => {
-    fetchProviders();
+    if (oauthProviders.length > 0) fetchProviders();
   }, [fetchProviders]);
+
+  if (oauthProviders.length === 0) return null;
 
   const handleUnlink = (provider: string) => {
     const linkedCount = providers.length;
